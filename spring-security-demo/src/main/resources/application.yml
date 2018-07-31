@@ -1,0 +1,31 @@
+server:
+  port: 7070
+
+spring:
+  application:
+    #项目名字
+    name: spring-security-demo
+  profiles:
+    active: db
+  #本项目引用了session管理依赖 ,必须指定会话数据存放的地方 Redis|JDBC|Hazelcast|none|mong
+  session:
+    store-type: none
+
+#security认证
+security:
+  basic:
+    enabled: true
+  user:
+   name: root
+   password: root
+
+
+
+#actuator信息
+management:
+  security:
+    enabled: false
+
+
+
+
