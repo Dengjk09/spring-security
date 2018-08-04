@@ -26,6 +26,12 @@ management:
   security:
     enabled: false
 
+dengjksecurity.browser.longinPage: /templates/simp-login.html
+dengjksecurity.browser.loginType: REDIREK
+dengjksecurity.imageCode.length: 6
+dengjksecurity.imageCode.width: 89
+
+
 
 
 
