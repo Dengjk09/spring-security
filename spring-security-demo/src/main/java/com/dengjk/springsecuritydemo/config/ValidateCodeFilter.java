@@ -1,12 +1,11 @@
 package com.dengjk.springsecuritydemo.config;
 
 import com.dengjk.springsecuritydemo.commone.exception.ValidateCodeException;
-import com.dengjk.springsecuritydemo.controller.ImageCodeController;
 import com.dengjk.springsecuritydemo.entity.ImageCodeEntity;
+import com.dengjk.springsecuritydemo.service.validate.ValidateCodeGenerator;
+import com.dengjk.springsecuritydemo.service.validate.ValidateCodeProcessor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
@@ -34,6 +33,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     @Autowired
     private  MyAuthenticationFailureHnadle myAuthenticationFailureHnadle;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -52,9 +52,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private void validateImageCode(HttpServletRequest request) throws ServletRequestBindingException, ValidateCodeException {
         ServletRequestAttributes requestAttributes = new ServletRequestAttributes(request);
-
         ImageCodeEntity codeInSession = (ImageCodeEntity) sessionStrategy.getAttribute(requestAttributes,
-                ImageCodeController.SESSION_KEY);
+                ValidateCodeProcessor.SESSION_KEY_PREFIX+"IMAGE");
         String codeInRequest = ServletRequestUtils.getStringParameter(request, "imageCode");
 
         if (StringUtils.isBlank(codeInRequest)) {
@@ -66,13 +65,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         }
 
         if(codeInSession.isExpried()){
-            sessionStrategy.removeAttribute(requestAttributes, ImageCodeController.SESSION_KEY);
+            sessionStrategy.removeAttribute(requestAttributes,  ValidateCodeProcessor.SESSION_KEY_PREFIX+"IMAGE");
             throw new ValidateCodeException("验证码已过期");
         }
 
         if(!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
-        sessionStrategy.removeAttribute(requestAttributes, ImageCodeController.SESSION_KEY);
+        sessionStrategy.removeAttribute(requestAttributes,  ValidateCodeProcessor.SESSION_KEY_PREFIX+"IMAGE");
     }
 }

@@ -6,6 +6,8 @@ public class BrowerProperties {
 
     private LoginTypeEnum loginType =LoginTypeEnum.JSON;
 
+    private  int remeberMeTokenTime =1800;
+
     public String getLonginPage() {
         return longinPage;
     }
@@ -20,5 +22,13 @@ public class BrowerProperties {
 
     public void setLoginType(LoginTypeEnum loginType) {
         this.loginType = loginType;
+    }
+
+    public int getRemeberMeTokenTime() {
+        return remeberMeTokenTime;
+    }
+
+    public void setRemeberMeTokenTime(int remeberMeTokenTime) {
+        this.remeberMeTokenTime = remeberMeTokenTime;
     }
 }

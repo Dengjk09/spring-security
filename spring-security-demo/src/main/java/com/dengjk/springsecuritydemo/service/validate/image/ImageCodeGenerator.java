@@ -1,33 +1,29 @@
-package com.dengjk.springsecuritydemo.service;
+package com.dengjk.springsecuritydemo.service.validate.image;
 
 import com.dengjk.springsecuritydemo.config.propertiesConfig.SecurityProperties;
 import com.dengjk.springsecuritydemo.entity.ImageCodeEntity;
+import com.dengjk.springsecuritydemo.entity.ValidateCodeEntity;
+import com.dengjk.springsecuritydemo.service.validate.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-
-/**
- * 在这里可能每个要求图片的格式大小都不一样 ,不直接把实现放入bean容器中   ,默认的话 通过一个bean来引入
+/***
+ * 图片生成器
  */
-public class ImageCodeGeneratorImpl implements ImageCodeGenerator {
-
+public class ImageCodeGenerator implements ValidateCodeGenerator {
     @Autowired
     private SecurityProperties securityProperties;
-    /**
-     * 生成图片对象
-     *
-     * @param request
-     * @return
-     */
+
     @Override
-    public ImageCodeEntity createImageCode(HttpServletRequest request) {
-        int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getImageCode().getWidth());
-        int height = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getImageCode().getHeight());
+    public ValidateCodeEntity generate(ServletWebRequest request) {
+        int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width", securityProperties.getImageCode().getWidth());
+        int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height", securityProperties.getImageCode().getHeight());
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
         Random random = new Random();
@@ -52,9 +48,9 @@ public class ImageCodeGeneratorImpl implements ImageCodeGenerator {
         g.dispose();
         return new ImageCodeEntity(image, sRand, 60);
     }
-
     /**
      * 生成随机背景条纹
+     *
      * @param fc
      * @param bc
      * @return
@@ -80,4 +76,5 @@ public class ImageCodeGeneratorImpl implements ImageCodeGenerator {
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
+
 }

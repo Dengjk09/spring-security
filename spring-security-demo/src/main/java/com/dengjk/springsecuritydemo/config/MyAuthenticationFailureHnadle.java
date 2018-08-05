@@ -37,7 +37,7 @@ public class MyAuthenticationFailureHnadle extends SimpleUrlAuthenticationFailur
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        if(LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())){
+        if(LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())||LoginTypeEnum.REDIREK.equals(securityProperties.getBrowser().getLoginType()) ){
             logger.info("登入失败开始响应自定义格式。。。");
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
