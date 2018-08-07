@@ -13,6 +13,10 @@ public class ValidateCodeEntity {
         this.localDateTime = LocalDateTime.now().plusSeconds(time);
     }
 
+    public boolean isExpried(){
+        return LocalDateTime.now().isAfter(localDateTime);
+    }
+
     public String getCode() {
         return code;
     }

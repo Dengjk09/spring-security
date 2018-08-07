@@ -1,10 +1,17 @@
 package com.dengjk.springsecuritydemo.entity;
 
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity implements Serializable {
 
     @Id
@@ -25,6 +32,18 @@ public class UserEntity implements Serializable {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "mobile")
+    private String mobile;
+
+    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "create_time")
+    private Date createTime;
+
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -72,5 +91,29 @@ public class UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -1,5 +1,7 @@
 package com.dengjk.springsecuritydemo.config;
 
+import com.dengjk.springsecuritydemo.Authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.dengjk.springsecuritydemo.Authentication.mobile.SmsValidateCodeFilter;
 import com.dengjk.springsecuritydemo.config.propertiesConfig.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +29,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private ValidateCodeFilter validateCodeFilter;
 
     @Autowired
+    private  SmsValidateCodeFilter smsValidateCodeFilter;
+
+    @Autowired
     private RemberMeConfig remberMeConfig;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     /**
      * 配置表单提交
@@ -44,8 +52,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
          * 为表单认证方式,当访问需要认证的接口时候 ,会先跳转到页面认证,认证完了之后就会跳转到想要访问的页面
          *
          */
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) /**配置图片认证在  用户认证之前*/
 
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) /**配置图片认证在  用户认证之前*/
+            .addFilterBefore(smsValidateCodeFilter,UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                     .loginPage("/api/auth/requireAuth")
                     //.loginPage("/templates/mylogin.html")  /**单独配置这个页面会报一个错误   检测到该服务器正在将指向此网址的请求无限循环重定向。首先这个页面也是需要授权的,就会进入一个无线循环中·*/
@@ -62,7 +71,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/templates/mylogin.html", "/api/auth/requireAuth", securityProperties.getBrowser().getLonginPage(), "/code/*").permitAll() /**解决无线循环   应该匹配到这个页面就放开   进入登入的页面*/
                     .anyRequest()   //所有的请求
                     .authenticated()  //都需要身份认证
-                    .and().csrf().disable();  //关闭csrf跨域防护
+                    .and().csrf().disable() //关闭csrf跨域防护
+
+            .apply(smsCodeAuthenticationSecurityConfig); /**让我们配置的短信验证生效*/
+
 
     }
 }
