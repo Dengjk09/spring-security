@@ -1,4 +1,4 @@
-package com.dengjk.springsecuritydemo.Authentication.qq.QQ;
+package com.dengjk.springsecuritydemo.Authentication.qq.connaction;
 
 import com.dengjk.springsecuritydemo.Authentication.qq.QQApi;
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +42,7 @@ public class QQApiImpl extends AbstractOAuth2ApiBinding implements QQApi {
         /**获取用户信息*/
         String repStr = String.format(URL_GET_USERINFO, appId, openId);
         QQUserInfo qqUserInfo = getRestTemplate().getForObject(repStr, QQUserInfo.class);
+        qqUserInfo.setOpenId(openId);
         return qqUserInfo;
     }
 }

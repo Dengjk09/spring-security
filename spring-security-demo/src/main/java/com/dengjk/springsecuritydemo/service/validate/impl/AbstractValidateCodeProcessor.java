@@ -56,9 +56,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCodeEntity
      * @param validateCode
      */
     private void save(ServletWebRequest request, C validateCode) {
-        System.out.println(SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase());
-        sessionStrategy.setAttribute(request, SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase(),
-                validateCode);
+        /**解决图片的类型不能存储到redis  session中*/
+        ValidateCodeEntity validateCodeEntity = new ValidateCodeEntity(validateCode.getCode(),600);
+        sessionStrategy.setAttribute(request, SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase(), validateCodeEntity);
     }
 
     /***

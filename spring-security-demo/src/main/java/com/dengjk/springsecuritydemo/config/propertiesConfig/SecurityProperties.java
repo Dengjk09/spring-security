@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SecurityProperties {
 
     private BrowerProperties browser = new BrowerProperties();
-
-
     private  ImageCodeProperties imageCode =new ImageCodeProperties();
+    private SocialProperties social =new SocialProperties();
+
 
     public BrowerProperties getBrowser() {
         return browser;
@@ -24,5 +24,13 @@ public class SecurityProperties {
 
     public void setImageCode(ImageCodeProperties imageCode) {
         this.imageCode = imageCode;
+    }
+
+    public SocialProperties getSocial() {
+        return social;
+    }
+
+    public void setSocial(SocialProperties social) {
+        this.social = social;
     }
 }

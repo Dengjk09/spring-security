@@ -73,4 +73,10 @@ public class AuthenticationController {
     public  Object getUserInfo(Authentication authentication){
         return authentication;
     }
+
+
+    @GetMapping(value = "/session/invaild")
+    public ResultData sessionVaild(){
+        return ResultData.AUTHFAIL("当前session已经失效,请重新登入");
+    }
 }

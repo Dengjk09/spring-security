@@ -1,8 +1,9 @@
 package com.dengjk.springsecuritydemo.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ValidateCodeEntity {
+public class ValidateCodeEntity implements Serializable {
 
     private String code;
 

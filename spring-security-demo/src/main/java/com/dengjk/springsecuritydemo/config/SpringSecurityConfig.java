@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 /***
  * 针对浏览器发起请求的认证
@@ -39,6 +40,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private SpringSocialConfigurer socialConfigurer;
+
+    @Autowired
+    private SessionInfoExpiredStrategy sessionInfoExpiredStrategy;
+
 
     /**
      * 配置表单提交
@@ -72,8 +80,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest()   //所有的请求
                     .authenticated()  //都需要身份认证
                     .and().csrf().disable() //关闭csrf跨域防护
-
-            .apply(smsCodeAuthenticationSecurityConfig); /**让我们配置的短信验证生效*/
+                /**配置session相关信息*/
+                .sessionManagement()
+                    .invalidSessionUrl("/api/auth/session/invaild")/**当session失效后的跳转url*/
+                    .maximumSessions(1) /**设置session最大登入数 ,就是设置并发登入 */
+                    .expiredSessionStrategy(sessionInfoExpiredStrategy) /**设置并发登入的处理机制*/
+                    .and()
+                .and()
+                .apply(smsCodeAuthenticationSecurityConfig) /**让我们配置的短信验证生效*/
+            .and()
+                .apply(socialConfigurer);
 
 
     }

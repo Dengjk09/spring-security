@@ -1,4 +1,4 @@
-package com.dengjk.springsecuritydemo.Authentication.qq.QQ;
+package com.dengjk.springsecuritydemo.Authentication.qq.connaction;
 
 
 import lombok.Data;

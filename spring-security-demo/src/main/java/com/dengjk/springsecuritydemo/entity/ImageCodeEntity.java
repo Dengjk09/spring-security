@@ -1,12 +1,13 @@
 package com.dengjk.springsecuritydemo.entity;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * 图形验证码实体
  */
-public class ImageCodeEntity  extends ValidateCodeEntity {
+public class ImageCodeEntity  extends ValidateCodeEntity implements Serializable{
 
     private BufferedImage bufferedImage;
 

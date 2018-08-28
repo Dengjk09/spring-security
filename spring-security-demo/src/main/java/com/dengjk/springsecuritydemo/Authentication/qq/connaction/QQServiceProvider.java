@@ -1,10 +1,14 @@
-package com.dengjk.springsecuritydemo.Authentication.qq.QQ;
+package com.dengjk.springsecuritydemo.Authentication.qq.connaction;
 
 
 import com.dengjk.springsecuritydemo.Authentication.qq.QQApi;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
-
+/**
+ * @author Dengjk
+ * @create 2018-08-11 10:41
+ * @desc
+ **/
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQApi> {
 
     private String appId;

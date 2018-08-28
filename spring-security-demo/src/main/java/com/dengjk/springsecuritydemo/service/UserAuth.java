@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -17,14 +20,14 @@ import org.springframework.util.Assert;
  * 实现Spring-security用户认证  使用spring-security提供的一个接口  UserDetailsService
  */
 @Service
-public class UserAuth implements UserDetailsService{
+public class UserAuth implements UserDetailsService ,SocialUserDetailsService{
 
 
     @Autowired
     private UserRepositry userRepositry;
 
     /**
-     * 重写方法
+     * 主要针对页面的表单登入
      * @param username
      * @return
      * @throws UsernameNotFoundException
@@ -52,6 +55,20 @@ public class UserAuth implements UserDetailsService{
          *  6. 用户是否被锁定
          */
         User adminDetail = new User(username, user.getPassword(), true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return adminDetail;
+    }
+
+
+    /**
+     *  社交登入  是以社交平台的id最为唯一标示来作为主键登入的
+     * @param userId
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        SocialUser adminDetail = new SocialUser(userId, userId, true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
         return adminDetail;
     }

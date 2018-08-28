@@ -7,10 +7,12 @@ spring:
     name: spring-security-demo
   profiles:
     active: db
+  redis:
+    port: 6379
+    host: 127.0.0.1
   #本项目引用了session管理依赖 ,必须指定会话数据存放的地方 Redis|JDBC|Hazelcast|none|mong
   session:
     store-type: none
-
 #security认证
 security:
   basic:
@@ -26,10 +28,12 @@ management:
   security:
     enabled: false
 
-dengjksecurity.browser.longinPage: /templates/simp-login.html
-dengjksecurity.browser.loginType: REDIREK
-dengjksecurity.imageCode.length: 6
-dengjksecurity.imageCode.width: 89
+dengjk.security.browser.longinPage: /templates/simp-login.html
+dengjk.security.browser.loginType: REDIREK
+dengjk.security.imageCode.length: 6
+dengjk.security.imageCode.width: 89
+dengjk.security.social.appId: 101448999
+dengjk.security.social.appSecret: 1d958787a87559bad371c0a9e26eef61
 
 
 
