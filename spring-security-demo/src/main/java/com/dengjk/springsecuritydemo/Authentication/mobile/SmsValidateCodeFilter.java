@@ -53,6 +53,7 @@ public class SmsValidateCodeFilter extends OncePerRequestFilter {
 
     private void validateImageCode(HttpServletRequest request) throws ServletRequestBindingException, ValidateCodeException {
         ServletRequestAttributes requestAttributes = new ServletRequestAttributes(request);
+        Object attribute = sessionStrategy.getAttribute(requestAttributes, ValidateCodeProcessor.SESSION_KEY_PREFIX + "SMS");
         ValidateCodeEntity codeInSession = (ValidateCodeEntity) sessionStrategy.getAttribute(requestAttributes,
                 ValidateCodeProcessor.SESSION_KEY_PREFIX+"SMS");
         String codeInRequest = ServletRequestUtils.getStringParameter(request, "smsCode");

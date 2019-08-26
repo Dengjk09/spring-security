@@ -2,6 +2,7 @@ package com.dengjk.springsecuritydemo.config;
 
 import com.dengjk.springsecuritydemo.commone.exception.ValidateCodeException;
 import com.dengjk.springsecuritydemo.entity.ImageCodeEntity;
+import com.dengjk.springsecuritydemo.entity.ValidateCodeEntity;
 import com.dengjk.springsecuritydemo.service.validate.ValidateCodeGenerator;
 import com.dengjk.springsecuritydemo.service.validate.ValidateCodeProcessor;
 import org.apache.commons.lang.StringUtils;
@@ -52,7 +53,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private void validateImageCode(HttpServletRequest request) throws ServletRequestBindingException, ValidateCodeException {
         ServletRequestAttributes requestAttributes = new ServletRequestAttributes(request);
-        ImageCodeEntity codeInSession = (ImageCodeEntity) sessionStrategy.getAttribute(requestAttributes,
+        Object attribute = sessionStrategy.getAttribute(requestAttributes, ValidateCodeProcessor.SESSION_KEY_PREFIX + "IMAGE");
+        ValidateCodeEntity codeInSession = (ValidateCodeEntity) sessionStrategy.getAttribute(requestAttributes,
                 ValidateCodeProcessor.SESSION_KEY_PREFIX+"IMAGE");
         String codeInRequest = ServletRequestUtils.getStringParameter(request, "imageCode");
 

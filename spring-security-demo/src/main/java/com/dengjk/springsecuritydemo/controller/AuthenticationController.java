@@ -71,7 +71,7 @@ public class AuthenticationController {
      */
     @GetMapping("/userInfo")
     public  Object getUserInfo(Authentication authentication){
-        return authentication;
+        return authentication.getPrincipal();
     }
 
 

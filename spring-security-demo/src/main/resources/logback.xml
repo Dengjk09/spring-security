@@ -70,7 +70,7 @@
     </appender>
 
     <!-- project default level -->
-    <logger name="com.banggood.lbs.mapper" level="debug" />
+    <logger name="com.dengjk.springsecuritydemo.mapper" level="debug" />
     <!--log4jdbc -->
     <logger name="jdbc.sqltiming" level="debug" />
     <logger name="com.ibatis" level="debug" />

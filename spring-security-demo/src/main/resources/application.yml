@@ -1,6 +1,11 @@
 server:
   port: 7070
 
+server.session.cookie.path: /
+server.session.cookie.domain: dengjk.cn
+server.session.timeout: 10800
+server.session.cookie.name: DJK_JSESSIONID
+
 spring:
   application:
     #项目名字
@@ -10,6 +15,8 @@ spring:
   redis:
     port: 6379
     host: 127.0.0.1
+    password: zaq1@WSX
+    database: 15
   #本项目引用了session管理依赖 ,必须指定会话数据存放的地方 Redis|JDBC|Hazelcast|none|mong
   session:
     store-type: none

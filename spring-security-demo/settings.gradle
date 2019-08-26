@@ -1,4 +1,0 @@
-rootProject.name = 'spring-security'
-includeFlat 'spring-security-browser'
-
-
